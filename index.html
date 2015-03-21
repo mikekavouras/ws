@@ -5,16 +5,20 @@
     <title>ws</title>
   </head>
   <body>
+    <a href="javascript://" id="button">clickerton</a>
     <div id="pings"></div>
     <script>
       var host = location.origin.replace(/^http/, 'ws')
       var ws = new WebSocket(host);
       ws.onmessage = function (event) {
-console.log(event);
         var li = document.createElement('li');
         li.innerHTML = JSON.parse(event.data);
         document.querySelector('#pings').appendChild(li);
       };
+
+      document.getElementById('button').addEventListener('click', function() {
+        ws.send("pudge");
+      }, false);
     </script>
   </body>
 </html>

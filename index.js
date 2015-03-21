@@ -14,17 +14,21 @@ console.log('server is listening on port %d', port);
 var wss = new WebSocketServer({ server: server });
 console.log('websocket server created');
 
+var clients = [];
 wss.on("connection", function(ws) {
-  var id = setInterval(function() {
-    ws.send(JSON.stringify(new Date()), function() {});
-  }, 1000);
-
+  clients.push(ws);
   console.log('websocket connection open');
 
   ws.on('close', function() {
     console.log('websocket connection close');
-    clearInterval(id);
   });
+
+  ws.onmessage = function(event) {
+    for (var i = 0; i < clients.length; i++) {
+      clients[i].send(JSON.stringify(event.data), function() {});
+    }
+  };
 });
+
 
 
