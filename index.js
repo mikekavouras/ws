@@ -19,31 +19,31 @@ var clients = [];
 wss.on("connection", function(ws) {
   ws.uuid = guid();
   clients.push(ws);
-  for (var i = 0; i < clients.length; i++) {
-    postAll({ user_count : clients.length });
-  }
+  post({ user_count : clients.length }, clients);
   console.log('websocket connection open: ' + clients.length);
 
   ws.on('close', function() {
     var ids = _.map(clients, function(client) { return client.uuid; });
     var idx = _.indexOf(ids, ws.uuid);
     clients.splice(idx, 1);
-    postAll({ user_count : clients.length });
+
+    post({ user_count : clients.length }, clients);
     console.log('websocket connection close: ' + clients.length);
   });
 
   ws.onmessage = function(event) {
-    postAll({message: event.data});
+    var data = JSON.parse(event.data);
+    var filtered = _.filter(clients, function(client) { return client.uuid !== ws.uuid; });
+    post(data, filtered);
   };
 });
 
-function postAll(data) {
+function post(data, set) {
   data = JSON.stringify(data);
-  for (var i = 0; i < clients.length; i++) {
-    clients[i].send(data);
+  for (var i = 0; i < set.length; i++) {
+    set[i].send(data);
   }
 }
-
 
 function guid() {
   function s4() {
@@ -54,5 +54,3 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
-

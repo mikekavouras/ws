@@ -6,17 +6,20 @@
     <title>ws</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
-      ul { margin: 0px; padding: 0px; }
-      li { list-style: none; margin: 8px 0px; }
+      .touch {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: blue;
+        position: absolute;
+        display: none;
+      }
     </style>
   </head>
   <body>
     <p id="user-count">People: 0</p>
-    <form id="form" action="">
-      <textarea id="message"></textarea>
-      <input type="submit">
-    </form>
-    <div id="pings"></div>
+    <div class="touch"></div>
+
     <script>
       var host = location.origin.replace(/^http/, 'ws')
       var ws = new WebSocket(host);
@@ -25,25 +28,16 @@
         ws.send(message);
       }
 
-      $(document).ready(function() {
-        $('form').bind('submit', function(e) {
-          e.preventDefault();
-          var message = $('#message').val();
-          postMessage(message);
-        });
-      });
-
       ws.onmessage = function (event) {
         var data = JSON.parse(event.data);
-        if (data.message) {
-          var li = document.createElement('li');
-          li.innerHTML = data.message;
-          document.querySelector('#pings').appendChild(li);
-        } else if (data.user_count) {
-          console.log('here');
+        if (data.user_count) {
           $('#user-count').html('People: ' + data.user_count);
+        } else {
+          handleTouch(data);
         }
       };
     </script>
+    <script src="touch-socket-handler.js"></script>
+    <script src="touches.js"></script>
   </body>
 </html>
