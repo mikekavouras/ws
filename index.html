@@ -17,7 +17,6 @@
     </style>
   </head>
   <body>
-    <p id="user-count">People: 0</p>
     <div class="touch"></div>
 
     <script>
@@ -31,7 +30,6 @@
       ws.onmessage = function (event) {
         var data = JSON.parse(event.data);
         if (data.user_count) {
-          $('#user-count').html('People: ' + data.user_count);
         } else {
           handleTouch(data);
         }
