@@ -3,22 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <title>ws</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
   <body>
-    <a href="javascript://" id="button">clickerton</a>
+    <form id="form" action="">
+      <textarea id="message"></textarea>
+      <input type="submit">
+    </form>
     <div id="pings"></div>
     <script>
       var host = location.origin.replace(/^http/, 'ws')
       var ws = new WebSocket(host);
+
+      function postMessage(message) {
+        ws.send(message);
+      }
+
+      $(document).ready(function() {
+        $('form').bind('submit', function(e) {
+          e.preventDefault();
+          var message = $('#message').val();
+          postMessage(message);
+        });
+      });
+
       ws.onmessage = function (event) {
         var li = document.createElement('li');
         li.innerHTML = JSON.parse(event.data);
         document.querySelector('#pings').appendChild(li);
       };
-
-      document.getElementById('button').addEventListener('click', function() {
-        ws.send("pudge");
-      }, false);
     </script>
   </body>
 </html>
