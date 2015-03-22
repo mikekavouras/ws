@@ -15,6 +15,7 @@ function handleTouch(data) {
 
 function drawOthersCircle(data) {
   var $div = $('<div class="touch" id="'+ data.id +'"></div>');
+  console.log(color);
   $div.css({
     'background-color': color,
     'top': data.position.y,
