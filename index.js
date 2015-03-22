@@ -1,5 +1,6 @@
 var WebSocketServer = require("ws").Server;
 var http = require("http");
+var _ = require("underscore");
 var express = require("express");
 var app = express();
 var port = process.env.PORT || 5000;
@@ -16,11 +17,15 @@ console.log('websocket server created');
 
 var clients = [];
 wss.on("connection", function(ws) {
+  ws.uuid = guid();
   clients.push(ws);
-  console.log('websocket connection open');
+  console.log('websocket connection open: ' + clients.length);
 
   ws.on('close', function() {
-    console.log('websocket connection close');
+    var ids = _.map(clients, function(client) { return client.uuid; });
+    var idx = _.indexOf(ids, ws.uuid);
+    clients.splice(idx, 1);
+    console.log('websocket connection close: ' + clients.length);
   });
 
   ws.onmessage = function(event) {
@@ -30,5 +35,15 @@ wss.on("connection", function(ws) {
   };
 });
 
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
 
 
