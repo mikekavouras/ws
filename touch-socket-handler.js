@@ -1,3 +1,7 @@
+var colors = ['red', 'green', 'orange', 'purple', 'yellow'];
+var rand = Math.floor(Math.random() * (colors.length + 1));
+var color = colors[rand];
+
 function handleTouch(data) {
   if (data.state === 0) {
     drawOthersCircle(data);
@@ -10,14 +14,11 @@ function handleTouch(data) {
 }
 
 function drawOthersCircle(data) {
-  console.log('DRAW NEW');
-  var colors = ['red', 'green', 'orange', 'purple', 'yellow'];
   var $div = $('<div class="touch" id="'+ data.id +'"></div>');
-  var rand = Math.floor(Math.random() * (colors.length + 1));
   $div.css({
-    'background-color' : colors[Math.random() * colors.length],
-    'top' : data.position.y,
-    'left' : data.position.x
+    'background-color': color,
+    'top': data.position.y,
+    'left': data.position.x
   }).show();
   $('body').append($div);
 }
