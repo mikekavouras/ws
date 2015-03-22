@@ -18,24 +18,24 @@ Touch.prototype = {
   touchStart: function(e) {
     var data = JSON.stringify({
       state: 0,
-      position: { x: e.pageX, y: e.pageY },
+      position: { x: e.pageX - 40, y: e.pageY - 40 },
       id: ID
     });
     ws.send(data);
-    this.$touch[0].style.left = (e.pageX - 25) + 'px';
-    this.$touch[0].style.top = (e.pageY - 25) + 'px';
+    this.$touch[0].style.left = (e.pageX - 40) + 'px';
+    this.$touch[0].style.top = (e.pageY - 40) + 'px';
     this.$touch.show();
   },
 
   touchMove: function(e) {
     var data = JSON.stringify({
       state: 1,
-      position: {x: e.pageX, y: e.pageY},
+      position: {x: e.pageX - 40, y: e.pageY - 40},
       id: ID
     });
     ws.send(data);
-    this.$touch[0].style.left = (e.pageX - 25) + 'px';
-    this.$touch[0].style.top = (e.pageY - 25) + 'px';
+    this.$touch[0].style.left = (e.pageX - 40) + 'px';
+    this.$touch[0].style.top = (e.pageY - 40) + 'px';
   },
 
   touchEnd: function(e) {
