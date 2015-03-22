@@ -8,14 +8,12 @@ function handleTouch(data) {
   } else if (data.state === 1) {
     moveCircle(data);
   } else if (data.state === 2) {
-    console.log('REMOVE NEW');
     $('#' + data.id).remove();
   }
 }
 
 function drawOthersCircle(data) {
   var $div = $('<div class="touch" id="'+ data.id +'"></div>');
-  console.log(color);
   $div.css({
     'background-color': color,
     'top': data.position.y + '%',
