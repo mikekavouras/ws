@@ -17,6 +17,7 @@
     </style>
   </head>
   <body>
+    <p id="user-count">People: 0</p>
     <form id="form" action="">
       <textarea id="message"></textarea>
       <input type="submit">
@@ -39,9 +40,15 @@
       });
 
       ws.onmessage = function (event) {
-        var li = document.createElement('li');
-        li.innerHTML = JSON.parse(event.data);
-        document.querySelector('#pings').appendChild(li);
+        var data = JSON.parse(event.data);
+        if (data.message) {
+          var li = document.createElement('li');
+          li.innerHTML = data.message;
+          document.querySelector('#pings').appendChild(li);
+        } else if (data.user_count) {
+          console.log('here');
+          $('#user-count').html('People: ' + data.user_count);
+        }
       };
     </script>
   </body>
