@@ -1,5 +1,5 @@
 var colors = ['red', 'green', 'orange', 'purple', 'yellow'];
-var rand = Math.floor(Math.random() * (colors.length + 1));
+var rand = Math.floor(Math.random() * colors.length);
 var color = colors[rand];
 
 function handleTouch(data) {
