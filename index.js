@@ -33,6 +33,7 @@ wss.on("connection", function(ws) {
 
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
+    console.log(data);
     var filtered = _.filter(clients, function(client) { return client.uuid !== ws.uuid; });
     post(data, filtered);
   };
