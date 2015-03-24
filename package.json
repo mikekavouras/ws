@@ -2,6 +2,10 @@
   "name": "ws-test",
   "version": "1.0.0",
   "description": "learn the ways of ws",
+  "engines": {
+    "iojs" : "1.0.x",
+    "npm": "2.1.x"
+  },
   "main": "index.js",
   "dependencies": {
     "express": "^4.12.3",
